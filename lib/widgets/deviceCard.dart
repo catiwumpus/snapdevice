@@ -20,6 +20,10 @@ class _DeviceCardState extends State<DeviceCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
+      elevation: 4,
+      margin: EdgeInsets.all(8),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+      clipBehavior: Clip.antiAliasWithSaveLayer,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -27,7 +31,7 @@ class _DeviceCardState extends State<DeviceCard> {
             children: <Widget>[
               Container(
                 child: Image.asset(
-                  "lib/assets/background.png",
+                  "lib/assets/wallpaper.png",
                   fit: BoxFit.fitWidth,
                 ),
               ),
@@ -40,26 +44,38 @@ class _DeviceCardState extends State<DeviceCard> {
               )
             ],
           ),
-          ListTile(
-            leading: Icon(
-              deviceData[widget.index].isAndroid
-                  ? Icons.android
-                  : FontAwesomeIcons.apple,
-              color: deviceData[widget.index].isAndroid
-                  ? Color(0xffa4c639)
-                  : Color(0xffc0c0c0),
-              size: 30.0,
-            ),
-            title: Text(deviceData[widget.index].manufacturer +
-                " " +
-                deviceData[widget.index].name),
-            subtitle: Text("OS Version: " + deviceData[widget.index].version),
-            trailing: Icon(Icons.info),
-          ),
-          SizedBox(
-            height: 15,
+          Divider(
+            color: Color(0xff323232),
+            height: 1,
           ),
           Container(
+            decoration: BoxDecoration(color: Color(0xff141414)),
+            child: ListTile(
+              leading: Icon(
+                deviceData[widget.index].isAndroid
+                    ? FontAwesomeIcons.android
+                    : FontAwesomeIcons.apple,
+                color: Color(0xffc0c0c0),
+                size: 30.0,
+              ),
+              title: Text(
+                deviceData[widget.index].manufacturer +
+                    " " +
+                    deviceData[widget.index].name,
+                style: TextStyle(color: Colors.white),
+              ),
+              subtitle: Text(
+                "OS Version: " + deviceData[widget.index].version,
+                style: TextStyle(color: Colors.grey),
+              ),
+              trailing: Icon(
+                Icons.info,
+                color: Color(0xff4d4d4d),
+              ),
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(color: Color(0xff141414)),
             alignment: Alignment.bottomLeft,
             child: FlatButton(
               textColor: _isCheckedOut ? Colors.grey : Color(0xff998300),

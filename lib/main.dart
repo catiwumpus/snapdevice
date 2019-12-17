@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
+      darkTheme: ThemeData.dark(),
       home: MyHomePage(title: 'Snap Device Manager'),
     );
   }
@@ -55,32 +56,33 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-        appBar: AppBar(
-          // Here we take the value from the MyHomePage object that was created by
-          // the App.build method, and use it to set our appbar title.
-          title: Text(
-            widget.title,
-            style: TextStyle(color: Color(0xdd000000)),
-          ),
-          backgroundColor: Color(0xffffda00),
-          iconTheme: IconThemeData(color: Color(0xdd000000)),
+      backgroundColor: Color(0xff323232),
+      appBar: AppBar(
+        // Here we take the value from the MyHomePage object that was created by
+        // the App.build method, and use it to set our appbar title.
+        title: Text(
+          widget.title,
+          style: TextStyle(color: Color(0xdd000000)),
         ),
-        drawer: Drawer(
-            child: ListView(
-          children: <Widget>[
-            ListTile(
-              title: Text("Check In"),
-              onTap: () {},
-            )
-          ],
-        )),
-        body: GridView.builder(
-            itemCount: deviceData.length,
-            gridDelegate:
-                SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4),
-            itemBuilder: (BuildContext context, int index) {
-              return new DeviceCard(index);
-            }) // This trailing comma makes auto-formatting nicer for build methods.
-        );
+        backgroundColor: Color(0xffffda00),
+        iconTheme: IconThemeData(color: Color(0xdd000000)),
+      ),
+      drawer: Drawer(
+          child: ListView(
+        children: <Widget>[
+          ListTile(
+            title: Text("Check In"),
+            onTap: () {},
+          )
+        ],
+      )),
+      body: GridView.builder(
+          itemCount: deviceData.length,
+          gridDelegate:
+              SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4),
+          itemBuilder: (BuildContext context, int index) {
+            return DeviceCard(index);
+          }), // This trailing comma makes auto-formatting nicer for build methods.
+    );
   }
 }
