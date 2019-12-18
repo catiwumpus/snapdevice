@@ -28,7 +28,7 @@ class _DeviceCardState extends State<DeviceCard> {
         shape: deviceData[widget.index].isSelected
             ? RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15.0),
-                side: BorderSide(color: Color(0xffffda00), width: 3))
+                side: BorderSide(color: Color(0xffffd600), width: 3))
             : RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
         clipBehavior: Clip.antiAliasWithSaveLayer,
         child: Column(

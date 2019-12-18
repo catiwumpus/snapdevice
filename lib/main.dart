@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:snap_devices/data/deviceData.dart';
 import 'package:snap_devices/widgets/deviceCard.dart';
 
@@ -7,6 +8,7 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    FlutterStatusbarcolor.setStatusBarColor(Colors.black.withOpacity(0.4));
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -46,7 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
           widget.title,
           style: TextStyle(color: Color(0xdd000000)),
         ),
-        backgroundColor: Color(0xffffda00),
+        backgroundColor: Color(0xffffd600),
         iconTheme: IconThemeData(color: Color(0xdd000000)),
         brightness: Brightness.dark,
       ),
@@ -79,7 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         gradient: LinearGradient(
                             colors: [
                               Colors.black.withOpacity(0.0),
-                              Colors.black
+                              Colors.black.withOpacity(0.8)
                             ],
                             begin: FractionalOffset.topCenter,
                             end: FractionalOffset.bottomCenter,
@@ -101,8 +103,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   }
                 });
               },
-              label: Text("CHECKOUT"),
-              backgroundColor: Color(0xffffda00),
+              label: Text(
+                "CHECKOUT",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              backgroundColor: Color(0xffffd600),
             )
           : SizedBox(),
       floatingActionButtonLocation: FloatingActionButtonLocation
