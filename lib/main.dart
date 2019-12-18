@@ -48,6 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         backgroundColor: Color(0xffffda00),
         iconTheme: IconThemeData(color: Color(0xdd000000)),
+        brightness: Brightness.dark,
       ),
       drawer: Drawer(
           child: ListView(
@@ -93,6 +94,9 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 setState(() {
                   for (int i = 0; i < deviceData.length - 1; i++) {
+                    if (deviceData[i].isSelected) {
+                      deviceData[i].isCheckedOut = true;
+                    }
                     deviceData[i].isSelected = false;
                   }
                 });

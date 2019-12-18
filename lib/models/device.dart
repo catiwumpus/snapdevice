@@ -6,9 +6,14 @@ class Device {
   String image;
   bool isAndroid;
   bool isSelected;
+  bool isCheckedOut;
 
   bool get selected {
     return isSelected;
+  }
+
+  bool get checkedOut {
+    return isCheckedOut;
   }
 
   Device(
@@ -18,5 +23,6 @@ class Device {
       this.platform,
       this.image,
       this.isAndroid,
-      this.isSelected = false});
+      this.isSelected = false,
+      this.isCheckedOut = false});
 }

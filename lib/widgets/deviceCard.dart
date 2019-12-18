@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:snap_devices/data/deviceData.dart';
-import 'package:snap_devices/data/employees.dart';
 
 class DeviceCard extends StatefulWidget {
   final int index;
@@ -13,11 +12,6 @@ class DeviceCard extends StatefulWidget {
 }
 
 class _DeviceCardState extends State<DeviceCard> {
-  var _isButtonDisabled = false;
-  var _employees = employees;
-  var _currentSelectedValue = " ";
-  var _isCheckedOut = false;
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -54,7 +48,15 @@ class _DeviceCardState extends State<DeviceCard> {
                       deviceData[widget.index].image,
                     ),
                   ),
-                )
+                ),
+                deviceData[widget.index].isCheckedOut
+                    ? Positioned.fill(
+                        child: Container(
+                          color: Colors.black.withOpacity(0.8),
+                          child: Center(child: Text("UNAVAILABLE")),
+                        ),
+                      )
+                    : Container(),
               ],
             ),
             Divider(
