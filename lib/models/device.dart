@@ -5,6 +5,11 @@ class Device {
   String platform;
   String image;
   bool isAndroid;
+  bool isSelected;
+
+  bool get selected {
+    return isSelected;
+  }
 
   Device(
       {this.manufacturer,
@@ -12,5 +17,6 @@ class Device {
       this.version,
       this.platform,
       this.image,
-      this.isAndroid});
+      this.isAndroid,
+      this.isSelected = false});
 }

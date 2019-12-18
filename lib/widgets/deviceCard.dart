@@ -5,7 +5,8 @@ import 'package:snap_devices/data/employees.dart';
 
 class DeviceCard extends StatefulWidget {
   final int index;
-  DeviceCard(this.index);
+  final Function() notifyParent;
+  DeviceCard(this.index, this.notifyParent);
 
   @override
   _DeviceCardState createState() => _DeviceCardState();
@@ -19,146 +20,75 @@ class _DeviceCardState extends State<DeviceCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 4,
-      margin: EdgeInsets.all(8),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
-      clipBehavior: Clip.antiAliasWithSaveLayer,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Stack(
-            children: <Widget>[
-              Container(
-                child: Image.asset(
-                  "lib/assets/wallpaper.png",
-                  fit: BoxFit.fitWidth,
-                ),
-              ),
-              Positioned.fill(
-                child: Container(
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          deviceData[widget.index].isSelected =
+              !deviceData[widget.index].isSelected;
+          widget.notifyParent();
+        });
+      },
+      child: Card(
+        elevation: 4,
+        margin: EdgeInsets.all(8),
+        shape: deviceData[widget.index].isSelected
+            ? RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15.0),
+                side: BorderSide(color: Color(0xffffda00), width: 3))
+            : RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Stack(
+              children: <Widget>[
+                Container(
                   child: Image.asset(
-                    deviceData[widget.index].image,
+                    "lib/assets/wallpaper.png",
+                    fit: BoxFit.fitWidth,
                   ),
                 ),
-              )
-            ],
-          ),
-          Divider(
-            color: Color(0xff323232),
-            height: 1,
-          ),
-          Container(
-            decoration: BoxDecoration(color: Color(0xff141414)),
-            child: ListTile(
-              leading: Icon(
-                deviceData[widget.index].isAndroid
-                    ? FontAwesomeIcons.android
-                    : FontAwesomeIcons.apple,
-                color: Color(0xffc0c0c0),
-                size: 30.0,
-              ),
-              title: Text(
-                deviceData[widget.index].manufacturer +
-                    " " +
-                    deviceData[widget.index].name,
-                style: TextStyle(color: Colors.white),
-              ),
-              subtitle: Text(
-                "OS Version: " + deviceData[widget.index].version,
-                style: TextStyle(color: Colors.grey),
-              ),
-              trailing: Icon(
-                Icons.info,
-                color: Color(0xff4d4d4d),
+                Positioned.fill(
+                  child: Container(
+                    child: Image.asset(
+                      deviceData[widget.index].image,
+                    ),
+                  ),
+                )
+              ],
+            ),
+            Divider(
+              color: Color(0xff323232),
+              height: 1,
+            ),
+            Container(
+              decoration: BoxDecoration(color: Color(0xff141414)),
+              child: ListTile(
+                leading: Icon(
+                  deviceData[widget.index].isAndroid
+                      ? FontAwesomeIcons.android
+                      : FontAwesomeIcons.apple,
+                  color: Color(0xffc0c0c0),
+                  size: 30.0,
+                ),
+                title: Text(
+                  deviceData[widget.index].manufacturer +
+                      " " +
+                      deviceData[widget.index].name,
+                  style: TextStyle(color: Colors.white),
+                ),
+                subtitle: Text(
+                  "OS Version: " + deviceData[widget.index].version,
+                  style: TextStyle(color: Colors.grey),
+                ),
+                trailing: Icon(
+                  Icons.info,
+                  color: Color(0xff4d4d4d),
+                ),
               ),
             ),
-          ),
-          Container(
-            decoration: BoxDecoration(color: Color(0xff141414)),
-            alignment: Alignment.bottomLeft,
-            child: FlatButton(
-              textColor: _isCheckedOut ? Colors.grey : Color(0xff998300),
-              child: Text(_isCheckedOut
-                  ? "Currently checked out to " + _currentSelectedValue
-                  : "Check out"),
-              onPressed: _isButtonDisabled
-                  ? null
-                  : () {
-                      showDialog(
-                          context: context,
-                          barrierDismissible: true,
-                          builder: (_) => AlertDialog(
-                                title: FormField(
-                                  builder: (FormFieldState<String> state) {
-                                    return Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        Text(
-                                          "Selected Devices:",
-                                          textAlign: TextAlign.left,
-                                        ),
-                                        SizedBox(
-                                          height: 5,
-                                        ),
-                                        Text(
-                                          deviceData[widget.index]
-                                                  .manufacturer +
-                                              " " +
-                                              deviceData[widget.index].name,
-                                          textAlign: TextAlign.left,
-                                        ),
-                                        DropdownButtonFormField(
-                                          decoration: InputDecoration(
-                                              helperText:
-                                                  "Please select your name"),
-                                          items: _employees.map((String value) {
-                                            return DropdownMenuItem<String>(
-                                              value: value,
-                                              child: Text(value),
-                                            );
-                                          }).toList(),
-                                          value: _currentSelectedValue,
-                                          onChanged: (String newValue) {
-                                            setState(() {
-                                              _currentSelectedValue = newValue;
-                                              state.didChange(newValue);
-                                            });
-                                          },
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                ),
-                                actions: <Widget>[
-                                  FlatButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        _currentSelectedValue = " ";
-                                        Navigator.pop(context);
-                                      });
-                                    },
-                                    child: Text("Cancel"),
-                                    textColor: Color(0xff998300),
-                                  ),
-                                  FlatButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        _isButtonDisabled = true;
-                                        _isCheckedOut = true;
-                                        Navigator.pop(context);
-                                      });
-                                    },
-                                    child: Text("Confirm"),
-                                    textColor: Color(0xff998300),
-                                  ),
-                                ],
-                              ));
-                    },
-            ),
-          )
-        ],
+          ],
+        ),
       ),
     );
   }
