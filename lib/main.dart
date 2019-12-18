@@ -58,17 +58,45 @@ class _MyHomePageState extends State<MyHomePage> {
           )
         ],
       )),
-      body: GridView.builder(
-          itemCount: deviceData.length,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-              childAspectRatio: itemHeight / itemWidth + .582),
-          itemBuilder: (BuildContext context, int index) {
-            return DeviceCard(index, refresh);
-          }),
+      body: Stack(
+        children: <Widget>[
+          GridView.builder(
+              itemCount: deviceData.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  childAspectRatio: itemHeight / itemWidth + .582),
+              itemBuilder: (BuildContext context, int index) {
+                return DeviceCard(index, refresh);
+              }),
+          _canShow(deviceData)
+              ? Align(
+                  alignment: FractionalOffset.bottomCenter,
+                  child: Container(
+                    height: itemHeight / 2,
+                    width: itemWidth * 2,
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            colors: [
+                              Colors.black.withOpacity(0.0),
+                              Colors.black
+                            ],
+                            begin: FractionalOffset.topCenter,
+                            end: FractionalOffset.bottomCenter,
+                            stops: [0.0, 1.0])),
+                  ),
+                )
+              : Container()
+        ],
+      ),
       floatingActionButton: _canShow(deviceData)
           ? FloatingActionButton.extended(
-              onPressed: () {},
+              onPressed: () {
+                setState(() {
+                  for (int i = 0; i < deviceData.length - 1; i++) {
+                    deviceData[i].isSelected = false;
+                  }
+                });
+              },
               label: Text("CHECKOUT"),
               backgroundColor: Color(0xffffda00),
             )
